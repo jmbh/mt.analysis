@@ -1,22 +1,11 @@
-
-
-## input: 
+## input:
 # 1. mouse tracking data
 # 2. indicating of vector we should use for aggregation
 
 ## output:
 # 1. (1) aggregated with respect to specified vector
 
-library(plyr)
-
-getwd()
-
-setwd("G:\\MPI\\__trajtypes_paper_2015\\RawData")
-
-data <- readRDS("koop_processed.RDS")
-
-data2 <- subset(data, rt<5000)
-nrow(data2)/nrow(data)
+#library(plyr)
 
 mt.aggregate <- function(
   data, #mousetracking data
@@ -43,19 +32,10 @@ return(out2)
 } #end of function
   
 
-#call function
-i.aggr <- "hrisk"
-i.xyt <- c("xflip", "y", "t")
-
-agg <- mt.aggregate(data, i.aggr, i.xyt)
-head(agg)
-
-plot(agg[agg$hrisk==0,]$mx, agg[agg$hrisk==0,]$my, type="p")
-lines(agg[agg$hrisk==1,]$mx, agg[agg$hrisk==1,]$my, col="red", type="p")
-
-t1 <- table(data$hrisk)
-t1/sum(t1)
-
-t1 <- table(data$hev)
-t1/sum(t1)
+## TESTDATA
+#setwd("G:\\MPI\\__trajtypes_paper_2015\\RawData")
+#data <- readRDS("koop_processed.RDS")
+#i.aggr <- "hrisk"
+#i.xyt <- c("xflip", "y", "t")
+#agg <- mt.aggregate(data, i.aggr, i.xyt)
 

@@ -5,29 +5,22 @@
 ####################################################
 
 #depedencies
-library(plyr)
+#library(plyr)
 
 ## input:
 # 1) data matrix containing the columns: trialid defining each trajectory uniquely,x,y,time,chosen box (left/right)
 # 2) coordinates of the starting position and the two boxes of the mouse
 
-box.cor <- list("start"=c(960,230), "left"=c(130,905), "right"=c(1830,905)) #coordinates
 
 ## output:
 # 1) time-normalized x and y values lined up to (0,0); x also fliped on one side
 # 2) on time step level: velocity(difference), distance to direct line
 # 3) on trial level: RT, mean velocity, MAD, AAD, directionalchange(DC), total distance
 
-##input
+##TESTINPUT
 box.cor <- list("start"=c(960,230), "left"=c(130,905), "right"=c(1830,905)) #coordinates
 i.id <- c("part_id", "trial_count", "sample_count")
 i.measure <- c("x", "y","time", "box_chosen")
-
-
-#testdata
-unique(dat$part_id)
-data <- subset(dat, part_id==26)
-data <- dat
 
 
 mt.preprocess <- function(
@@ -101,11 +94,11 @@ data$t <- as.numeric(data$t)
     
     #normalise time vector [0,1]
     v_time_norm <- (v_time - v_time[1]) / (v_time[length(v_time)]-v_time[1])
-    v_time_norm <- v_time_norm*100
+    v_time_norm <- v_time_norm*(ts-1)
     
-    # interpolation of x&y to 101 equally spaced time slices
-    lin.x <- approx(v_time_norm, v_x, xout = 0:100, method = "linear") # interpolate x coordinates
-    lin.y <- approx(v_time_norm, v_y, xout = 0:100, method = "linear") # interpolate y coordinates
+    # interpolation of x&y to ts equally spaced time slices
+    lin.x <- approx(v_time_norm, v_x, xout = 0:(ts-1), method = "linear") # interpolate x coordinates
+    lin.y <- approx(v_time_norm, v_y, xout = 0:(ts-1), method = "linear") # interpolate y coordinates
     
     rawdata_restoftable <- x[rep(1,101),4:ncol(data)]
 
@@ -217,18 +210,11 @@ data$t <- as.numeric(data$t)
 } #end of function
 
 
+## testing function
+#t1 <- proc.time()[1]
+#dat_processed <- mt.preprocess(dat1, box.cor, i.id, i.measure)
+#proc.time()[1] - t1
 
-
-# testing function
-t1 <- proc.time()[1]
-dat_processed <- mt.preprocess(dat1, box.cor, i.id, i.measure)
-proc.time()[1] - t1
-
-
-head(dat_processed)
-nrow(dat_processed)/101
-
-writeRDS(dat_processed, "DES_processed.RDS")
 
 
 

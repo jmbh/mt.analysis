@@ -1,1 +1,2 @@
-exportPattern("^[[:alpha:]]+")
+importFrom(plyr, ddply)
+export(mt.aggregate, mt.preprocess, mt.ttdetect)

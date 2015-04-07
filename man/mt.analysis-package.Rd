@@ -3,40 +3,23 @@
 \alias{mt.analysis}
 \docType{package}
 \title{
-What the package does (short line)
-~~ package title ~~
+mt.analysis: process 2D motor-tracing data from 2-alternative choice tasks
 }
 \description{
-More about what it does (maybe more than one line)
-~~ A concise (1-5 lines) description of the package ~~
+Functions to preprocess (time-normalize & compute derivatives of trajectory) and aggregate trajectory
 }
 \details{
 \tabular{ll}{
 Package: \tab mt.analysis\cr
 Type: \tab Package\cr
-Version: \tab 1.0\cr
+Version: \tab 0.01\cr
 Date: \tab 2015-04-07\cr
-License: \tab What license is it under?\cr
+License: \tab ?\cr
 }
-~~ An overview of how to use the package, including the most important ~~
-~~ functions ~~
+
 }
 \author{
-Who wrote it
+Jonas Haslbeck
 
-Maintainer: Who to complain to <yourfault@somewhere.net>
-~~ The author and/or maintainer of the package ~~
-}
-\references{
-~~ Literature or other references for background information ~~
-}
-~~ Optionally other standard keywords, one per line, from file KEYWORDS in ~~
-~~ the R documentation directory ~~
-\keyword{ package }
-\seealso{
-~~ Optional links to other man pages, e.g. ~~
-~~ \code{\link[<pkg>:<pkg>-package]{<pkg>}} ~~
-}
-\examples{
-~~ simple examples of the most important functions ~~
+Maintainer: Jonas Haslbeck <jonashaslbeck@gmail.com>
 }
