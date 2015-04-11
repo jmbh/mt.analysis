@@ -55,14 +55,7 @@ Spivey, M. J., Grosjean, M., & Knoblich, G. (2005). Continuous attraction toward
 }
 \examples{
 
-> head(dataraw) #example dataset
-  trial    x   y  t group b
-1     1 1087 186 36     1 0
-2     1 1087 186 37     1 0
-3     1 1085 189 42     1 0
-4     1 1085 189 46     1 0
-5     1 1083 190 51     1 0
-6     1 1083 190 56     1 0
+head(dataraw) #example dataset
 
 box.cor <- list("start"=c(960,230), "left"=c(130,905), "right"=c(1830,905)) #coordinates from the example dataset
 i.id <- c("trial")
@@ -72,15 +65,8 @@ data.norm <- mt.preprocess(data=dataraw,
                       i.id, 
                       i.measure, 
                       tsteps=101)
-> head(data.norm[,1:9])
-  data[, c(i.id)]        x   y t b group  rt    xflip     dist
-1               1 127.0000 -44 0 0     1 466 127.0000 45.99351
-2               1 125.0000 -41 1 0     1 466 125.0000 47.05911
-3               1 123.0000 -40 2 0     1 466 123.0000 46.57305
-4               1 121.5878 -40 3 0     1 466 121.5878 45.68200
-5               1 116.0000 -40 4 0     1 466 116.0000 42.15644
-6               1 112.2993 -40 5 0     1 466 112.2993 39.82151
-> 
+head(data.norm[,1:9])
+
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
