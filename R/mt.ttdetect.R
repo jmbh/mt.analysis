@@ -38,9 +38,6 @@ return(data)
 
 #boxplot(MAD~cluster, data)
 
-data.g <- mt.ttdetect(dataprocessed, 
-                      kclust = 2, 
-                      varclust = "MAD")
 
 
 

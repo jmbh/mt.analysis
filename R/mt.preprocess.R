@@ -18,9 +18,9 @@
 # 3) on trial level: RT, mean velocity, MAD, AAD, directionalchange(DC), total distance
 
 ##TESTINPUT
-box.cor <- list("start"=c(960,230), "left"=c(130,905), "right"=c(1830,905)) #coordinates
-i.id <- c("part_id", "trial_count", "sample_count")
-i.measure <- c("x", "y","time", "box_chosen")
+#box.cor <- list("start"=c(960,230), "left"=c(130,905), "right"=c(1830,905)) #coordinates
+#i.id <- c("part_id", "trial_count", "sample_count")
+#i.measure <- c("x", "y","time", "box_chosen")
 
 
 mt.preprocess <- function(
@@ -28,7 +28,7 @@ mt.preprocess <- function(
   box.cor, # coordinates of start position and boxes, see details
   i.id, # names of columns whose combination indicate unique trajectories
   i.measure, #names of columns indicating x,y,time,chosen box in this order
-  ts = 101 #numer of timesteps, default = 101
+  tsteps = 101 #numer of timesteps, default = 101
   ) {
   
   #### step 1 - sanity checks 
@@ -42,6 +42,13 @@ mt.preprocess <- function(
   if(sum(is.na(data)>0)) {
     stop("No missing values allowed.")
     }
+  
+  num_check <- apply(data, 2, is.numeric) == FALSE
+  
+  if(sum(num_check)>0) {
+    stop("Only numerical values allowed.")
+  }
+  
 
 data <- as.data.frame(data)
 ids <- length(i.id)
@@ -82,7 +89,7 @@ data$t <- as.numeric(data$t)
   }
 
   data$rt <- ddply(data, c(i.id), f_calc_rts)[,(ids+1)]
-  hist(data$rt)  
+
 
 #### step 4 - time normalise ####
 
@@ -94,13 +101,13 @@ data$t <- as.numeric(data$t)
     
     #normalise time vector [0,1]
     v_time_norm <- (v_time - v_time[1]) / (v_time[length(v_time)]-v_time[1])
-    v_time_norm <- v_time_norm*(ts-1)
+    v_time_norm <- v_time_norm*(tsteps-1)
     
-    # interpolation of x&y to ts equally spaced time slices
-    lin.x <- approx(v_time_norm, v_x, xout = 0:(ts-1), method = "linear") # interpolate x coordinates
-    lin.y <- approx(v_time_norm, v_y, xout = 0:(ts-1), method = "linear") # interpolate y coordinates
+    # interpolation of x&y to tsteps equally spaced time slices
+    lin.x <- approx(v_time_norm, v_x, xout = 0:(tsteps-1), method = "linear") # interpolate x coordinates
+    lin.y <- approx(v_time_norm, v_y, xout = 0:(tsteps-1), method = "linear") # interpolate y coordinates
     
-    rawdata_restoftable <- x[rep(1,101),4:ncol(data)]
+    rawdata_restoftable <- x[rep(1,tsteps),4:ncol(data)]
 
     
     data_export <- cbind(lin.x$y, lin.y$y, lin.x$x, rawdata_restoftable) 
@@ -158,8 +165,8 @@ data$t <- as.numeric(data$t)
   #### step 7 - M: AAD/MAD #### 
   
   f_aadmad <- function(x) {
-    AAD <- rep(mean(x$dist),101) # aad
-    MAD <- rep(max(x$dist),101) # mad
+    AAD <- rep(mean(x$dist),tsteps) # aad
+    MAD <- rep(max(x$dist),tsteps) # mad
     out <- cbind(AAD, MAD)
     return(out)
   }
@@ -184,24 +191,12 @@ data$t <- as.numeric(data$t)
     sumdist <- ddply(data, c(i.id), function(x) {
     totdist <- sum(x$velo, na.rm=TRUE)
     meanvelo <- mean(x$velo, na.rm=TRUE)
-    cbind(rep(totdist,101), rep(meanvelo,101))
+    cbind(rep(totdist,tsteps), rep(meanvelo,tsteps))
     })
     data$totdist <- sumdist[,(ncol(sumdist)-1)]
     data$meanvelo <- sumdist[,ncol(sumdist)]
 
   
-  #### step 10 - M: bigflips ####
-
-#  f_bigflip <- function(x) {
-#    if(max(x[,7]) > abs(box.cor$start[1]-box.cor$left[1]))
-#    { bflip <- 1 } else { bflip <- 0}
-#    cbind(rep(bflip,101))
-#  }
-
-
-# v_bflip <- ddply(data, c("id"), f_bigflip)[,2]
-#  data$bflip <- v_bflip
-
 
   #re-order dataframe
   data_out <- cbind(data[,c(i.id)], data[,colnames(data)[(colnames(data) %in% i.id)!=TRUE]])
@@ -215,6 +210,18 @@ data$t <- as.numeric(data$t)
 #dat_processed <- mt.preprocess(dat1, box.cor, i.id, i.measure)
 #proc.time()[1] - t1
 
+getwd()
+load("data/dataraw.RData")
 
+head(dataraw) #example dataset
+box.cor <- list("start"=c(960,230), "left"=c(130,905), "right"=c(1830,905)) #coordinates from the example dataset
+i.id <- c("trial")
+i.measure <- c("x", "y","t", "b")
+data.norm <- mt.preprocess(data=dataraw,
+                      box.cor = box.cor, 
+                      i.id, 
+                      i.measure, 
+                      tsteps=101)
+head(data.norm[,1:9])
 
 

@@ -51,17 +51,13 @@ Vector of variable names used for clustering
 
 head(dataprocessed) #example dataset
 
-
-data.g <- at.ttdetect(dataprocessed, 
-                      kclust = 2, 
-                      varclust = "MAD")
+data.g <- at.ttdetect(data = dataprocessed, 
+                      kclust = 2, #classify in two clusters
+                      varclust = c("MAD", "AAD") #use variables "MAD" and "AAD"
+                      ) 
                       
 head(data.g)
-table(data.g$clust)
-
-
-
-
+table(data.g$clusters)
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

@@ -9,7 +9,7 @@
 
 mt.aggregate <- function(
   data, #mousetracking data
-  i.aggr, #variable using for aggregation
+  i.aggr, #variables using for aggregation
   i.xyt #x,y  and time values
 ) {
   
@@ -32,10 +32,18 @@ return(out2)
 } #end of function
   
 
+head(dataprocessed)
+
+data.aggregated <- mt.aggregate(data = dataprocessed, 
+                                i.aggr=c("group"), 
+                                i.xyt=c("x", "y", "t"))
+head(data.aggregated)
+
+
 ## TESTDATA
 #setwd("G:\\MPI\\__trajtypes_paper_2015\\RawData")
 #data <- readRDS("koop_processed.RDS")
-#i.aggr <- "hrisk"
+#i.aggr <- "evdiff"
 #i.xyt <- c("xflip", "y", "t")
 #agg <- mt.aggregate(data, i.aggr, i.xyt)
 
