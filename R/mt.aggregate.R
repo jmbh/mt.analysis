@@ -32,12 +32,12 @@ return(out2)
 } #end of function
   
 
-head(dataprocessed)
+#head(dataprocessed)
 
-data.aggregated <- mt.aggregate(data = dataprocessed, 
-                                i.aggr=c("group"), 
-                                i.xyt=c("x", "y", "t"))
-head(data.aggregated)
+#data.aggregated <- mt.aggregate(data = dataprocessed, 
+#                                i.aggr=c("group"), 
+#                                i.xyt=c("x", "y", "t"))
+#head(data.aggregated)
 
 
 ## TESTDATA
