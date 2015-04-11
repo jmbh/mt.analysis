@@ -8,3 +8,4 @@ Maintainer: Jonas Haslbeck  <jonashaslbeck@gmail.com>
 Description: Functions to preprocess (time-normalize & compute derivatives of trajectory) and aggregate trajectory
 License: ?
 Imports: plyr
+LazyData: true
