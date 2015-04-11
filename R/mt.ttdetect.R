@@ -7,13 +7,15 @@
 ## input:
 # data matrix with MAD column labeled "MAD"
 # number of clusters: nclust
+# vector of column names of variables used for clustering
 ## output:
 # data matrix with one additional column = cluster-membership
 
 
-mt.ttdetect <- function(data, nclust) {
+
+mt.ttdetect <- function(data, kclust, varclust) {
   
-fit <- kmeans(data[,c("MAD")], nclust)
+fit <- kmeans(data[,varclust], kclust)
 data$clusters <- fit$cluster
 
 return(data)
@@ -36,7 +38,9 @@ return(data)
 
 #boxplot(MAD~cluster, data)
 
-
+data.g <- mt.ttdetect(dataprocessed, 
+                      kclust = 2, 
+                      varclust = "MAD")
 
 
 

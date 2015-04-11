@@ -5,18 +5,21 @@
 Detect different trajectory types
 }
 \description{
-Uses k-means clustering on the variable Maximum Absolute Deviation to flag different trajectory types
+Uses k-means clustering on a specified vector of variables to identify different types of trajectories
 }
 \usage{
-mt.ttdetect(data, nclust)
+mt.ttdetect(data, kclust, varclust)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{data}{
-%%     ~~Describe \code{data} here~~
+The dataset containing the mouse-tracing data and the variables used for clustering
 }
-  \item{nclust}{
-%%     ~~Describe \code{nclust} here~~
+  \item{kclust}{
+Number of clusters
+}
+  \item{varclust}{
+Vector of variable names used for clustering
 }
 }
 \details{
@@ -45,17 +48,21 @@ mt.ttdetect(data, nclust)
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
 
-## The function is currently defined as
-function (data, nclust) 
-{
-    fit <- kmeans(data[, c("MAD")], nclust)
-    data$clusters <- fit$cluster
-    return(data)
-  }
+head(dataprocessed) #example dataset
+
+
+data.g <- at.ttdetect(dataprocessed, 
+                      kclust = 2, 
+                      varclust = "MAD")
+                      
+head(data.g)
+table(data.g$clust)
+
+
+
+
+
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
