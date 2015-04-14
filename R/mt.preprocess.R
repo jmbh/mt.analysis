@@ -43,7 +43,7 @@ mt.preprocess <- function(
     stop("No missing values allowed.")
     }
   
-  num_check <- apply(data, 2, is.numeric) == FALSE
+  num_check <- apply(data[,i.measure], 2, is.numeric) == FALSE
   
   if(sum(num_check)>0) {
     stop("Only numerical values allowed.")
